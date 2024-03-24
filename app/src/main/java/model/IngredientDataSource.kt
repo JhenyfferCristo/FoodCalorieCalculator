@@ -3,7 +3,7 @@ import com.example.foodcaloriesexplorer.R
 
 object IngredientDataSource {
     private fun getCategory(categoryNameRes: Int) =
-        CategoryDataSource.Categories.first { it.nameRes == categoryNameRes }
+        CategoryDataSource.categories.first { it.nameRes == categoryNameRes }
 
     val Ingredients = listOf(
         // Fruits

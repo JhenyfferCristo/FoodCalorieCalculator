@@ -3,7 +3,7 @@ package model
 import com.example.foodcaloriesexplorer.R
 
 object CategoryDataSource {
-    val Categories = listOf(
+    val categories = listOf(
         Category(
             nameRes =R.string.fruit,
             imageRes = R.drawable.fruit
