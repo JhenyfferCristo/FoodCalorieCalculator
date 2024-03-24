@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">FoodCaloriesExplorer</string>
+    <string name="fruit">Fruits</string>
+    <string name="vegetable">Vegetables</string>
+    <string name="seaFood">Sea Food</string>
+    <string name="grains">Grains</string>
+    <string name="meat">Meat</string>
+
+    <!-- Ingredients -->
+    <string name="apples">Apples</string>
+    <string name="bananas">Bananas</string>
+    <string name="oranges">Oranges</string>
+    <string name="strawberries">Strawberries</string>
+    <string name="pineapples">Pineapples</string>
+    <string name="salmon">Salmon</string>
+    <string name="shrimp">Shrimp</string>
+    <string name="tuna">Tuna</string>
+    <string name="crab">Crab</string>
+    <string name="mussels">Mussels</string>
+    <string name="broccoli">Broccoli</string>
+    <string name="carrots">Carrots</string>
+    <string name="spinach">Spinach</string>
+    <string name="bell_peppers">Bell Peppers</string>
+    <string name="tomatoes">Tomatoes</string>
+    <string name="chicken">Chicken</string>
+    <string name="beef">Beef</string>
+    <string name="pork">Pork</string>
+    <string name="lamb">Lamb</string>
+    <string name="turkey">Turkey</string>
+    <string name="rice">Rice</string>
+    <string name="quinoa">Quinoa</string>
+    <string name="oats">Oats</string>
+    <string name="barley">Barley</string>
+    <string name="wheat_flour">Wheat Flour</string>
 </resources>
