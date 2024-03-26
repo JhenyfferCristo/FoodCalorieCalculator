@@ -3,36 +3,31 @@ package com.example.foodcaloriesexplorer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.foodcaloriesexplorer.ui.theme.FoodCaloriesExplorerTheme
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import com.example.foodcaloriesexplorer.ui.AppScreen
+import com.example.foodcaloriesexplorer.ui.MainContent
+import com.example.foodcaloriesexplorer.ui.SignInScreen
+import com.example.foodcaloriesexplorer.ui.SignUpScreen
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            FoodCaloriesExplorerTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    CaloriesApp()
-                }
+            val currentScreen = remember { mutableStateOf(AppScreen.SignIn) }
+
+            when (currentScreen.value) {
+                AppScreen.SignIn -> SignInScreen(
+                    onSignInSuccess = { currentScreen.value = AppScreen.MainContent },
+                    onSignUpRequested = { currentScreen.value = AppScreen.SignUp }
+                )
+                AppScreen.SignUp -> SignUpScreen(
+                    onSignupSuccess = { currentScreen.value = AppScreen.SignIn },
+                    onSignInRequested = { currentScreen.value = AppScreen.SignIn }
+                )
+                AppScreen.MainContent -> MainContent()
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FoodCaloriesExplorerTheme {
-        CaloriesApp()
     }
 }
