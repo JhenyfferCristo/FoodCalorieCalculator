@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.foodcaloriesexplorer
 
 import androidx.compose.animation.AnimatedVisibility
@@ -24,6 +26,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,19 +34,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import model.Category
 
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun CategoriesList(
+fun CategoriesScreen(
     categories: List<Category>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
+    onCategoryClick: (category: Category) -> Unit
 ) {
     val visibleState = remember {
         MutableTransitionState(false).apply {
@@ -61,18 +68,18 @@ fun CategoriesList(
     ) {
         LazyColumn(contentPadding = contentPadding) {
             itemsIndexed(categories) { index, category ->
-                CategoryListCard(category = category, modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        // Animate each list item to slide in vertically
-                        .animateEnterExit(
-                            enter = slideInVertically(
-                                animationSpec = spring(
-                                    stiffness = Spring.StiffnessVeryLow,
-                                    dampingRatio = Spring.DampingRatioLowBouncy
-                                ),
-                                initialOffsetY = { it * (index + 1) }
-                            )
+                CategoryListCard(category = category, onCardClick = {onCategoryClick(category)}, modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    // Animate each list item to slide in vertically
+                    .animateEnterExit(
+                        enter = slideInVertically(
+                            animationSpec = spring(
+                                stiffness = Spring.StiffnessVeryLow,
+                                dampingRatio = Spring.DampingRatioLowBouncy
+                            ),
+                            initialOffsetY = { it * (index + 1) }
                         )
+                    )
                 )
             }
         }
@@ -81,10 +88,12 @@ fun CategoriesList(
 @Composable
 fun CategoryListCard(
     category: Category,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCardClick: () -> Unit,
 ){
     Card( elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        modifier = modifier,){
+        onClick = onCardClick,
+        modifier = modifier){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -114,3 +123,5 @@ fun CategoryListCard(
         }
     }
 }
+
+

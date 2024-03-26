@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">FoodCaloriesExplorer</string>
+    <string name="app_name">Food Calories Explorer</string>
+
+    <!-- App Screens -->
+    <string name="categories_screen_title">Categories</string>
+    <string name="ingredients_screen_title">Ingredients</string>
+
+    <!-- Categories -->
     <string name="fruit">Fruits</string>
     <string name="vegetable">Vegetables</string>
     <string name="seaFood">Sea Food</string>

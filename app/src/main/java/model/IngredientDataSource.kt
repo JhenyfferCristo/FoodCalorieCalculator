@@ -5,6 +5,8 @@ object IngredientDataSource {
     private fun getCategory(categoryNameRes: Int) =
         CategoryDataSource.categories.first { it.nameRes == categoryNameRes }
 
+    fun getIngredientsForCategory(category: Category?) = Ingredients.filter { it.category.nameRes == category?.nameRes }
+
     val Ingredients = listOf(
         // Fruits
         Ingredient(
