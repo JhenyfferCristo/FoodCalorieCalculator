@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foodcaloriesexplorer.data.FakeData
+import com.example.foodcaloriesexplorer.data.UserManager
 
 @Composable
 fun SignInScreen(onSignInSuccess: () -> Unit, onSignUpRequested : () -> Unit) {
@@ -58,6 +59,7 @@ fun SignInScreen(onSignInSuccess: () -> Unit, onSignUpRequested : () -> Unit) {
             Button(onClick = {
                 val user = FakeData.authenticate(email, password)
                 if (user != null) {
+                    UserManager.currentUser = user
                     onSignInSuccess()
                 } else {
                     dialogMessage = "Authentication failed."
