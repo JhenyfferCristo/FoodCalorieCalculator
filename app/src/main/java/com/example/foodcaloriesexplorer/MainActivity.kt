@@ -1,5 +1,6 @@
 package com.example.foodcaloriesexplorer
 
+import ProfileScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     onSignupSuccess = { currentScreen.value = AppScreen.SignIn },
                     onSignInRequested = { currentScreen.value = AppScreen.SignIn }
                 )
-                AppScreen.MainContent -> MainContent()
+                AppScreen.MainContent -> MainContent ( isSignIn = {currentScreen.value = AppScreen.Profile})
+                AppScreen.Profile -> ProfileScreen()
             }
         }
     }
