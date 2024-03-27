@@ -5,6 +5,7 @@ data class User(
     val password: String,
     val name: String,
     val height: String,
-    val weight: String
+    val weight: String,
+    val caloriesGoal: Int = 0,
 )
 

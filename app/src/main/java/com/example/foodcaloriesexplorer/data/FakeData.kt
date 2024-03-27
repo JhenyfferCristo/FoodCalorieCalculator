@@ -7,7 +7,8 @@ object FakeData {
             password = "1234",
             name = "TestUser",
             height = "170",
-            weight = "65")
+            weight = "65",
+        )
     )
     fun addUser(user: User): Boolean {
         if (users.any { it.email == user.email }) {

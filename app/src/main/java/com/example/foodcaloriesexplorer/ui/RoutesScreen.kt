@@ -2,6 +2,7 @@
 
 package com.example.foodcaloriesexplorer.ui
 
+import DashboardScreen
 import ProfileScreen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -26,9 +27,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import model.Category
 import model.CategoryDataSource
+import model.ListType
 
 var currentSelectedCategory: Category? = null;
+var listToAddIngredientTo: ListType? = null;
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CaloriesAppBar(
     currentScreen: AppScreen,
@@ -79,19 +83,6 @@ fun CaloriesApp(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            composable(route = AppScreen.DashScreen.name) {
-                CategoriesScreen(
-                    categories =  CategoryDataSource.categories,
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    onCategoryClick = {category ->
-                        run {
-                            currentSelectedCategory = category
-                            navController.navigate(AppScreen.IngredientsScreen.name)
-                        }
-                    }
-                )
-            }
             composable(route = AppScreen.CategoriesScreen.name) {
                 CategoriesScreen(
                     categories =  CategoryDataSource.categories,
@@ -106,11 +97,11 @@ fun CaloriesApp(
                 )
             }
             composable(route = AppScreen.IngredientsScreen.name) {
-                IngredientsScreen(currentSelectedCategory)
+                IngredientsScreen(goBack = { navController.popBackStack(); listToAddIngredientTo = null}, listToAddIngredient = listToAddIngredientTo)
             }
             composable(route = AppScreen.SignIn.name) {
                 SignInScreen(
-                    onSignInSuccess = { navController.navigate(AppScreen.MainContent.name) },
+                    onSignInSuccess = {  navController.navigate(AppScreen.DashboardScreen.name) },
                     onSignUpRequested = { navController.navigate(AppScreen.SignUp.name) }
                 )
             }
@@ -121,9 +112,17 @@ fun CaloriesApp(
                 )
             }
             composable(route = AppScreen.MainContent.name) {
-                MainContent ( isSignIn = {navController.navigate(AppScreen.Profile.name)})
+                MainContent ( isSignIn = {navController.navigate(AppScreen.Profile.name)}, navigateToCategories = {
+                    navController.navigate(AppScreen.CategoriesScreen.name)
+                })
             }
-            composable(route = AppScreen.MainContent.name) {
+            composable(route = AppScreen.DashboardScreen.name) {
+                DashboardScreen( onAddIngredientsClick = {
+                    listToAddIngredientTo = it;
+                    navController.navigate(AppScreen.IngredientsScreen.name)
+                })
+            }
+            composable(route = AppScreen.Profile.name) {
                 ProfileScreen()
             }
         }

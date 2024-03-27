@@ -16,7 +16,7 @@ import com.example.foodcaloriesexplorer.data.UserManager
 
 
 @Composable
-fun MainContent(isSignIn: () -> Unit) {
+fun MainContent(isSignIn: () -> Unit, navigateToCategories: () -> Unit) {
    var showDialog by remember { mutableStateOf(false) }
    var dialogMessage by remember { mutableStateOf("") }
 
@@ -26,7 +26,7 @@ fun MainContent(isSignIn: () -> Unit) {
 
       Button(onClick = {
          if (UserManager.currentUser != null) {
-            isSignIn()
+            navigateToCategories()
          } else {
             dialogMessage = "Please Sign In."
             showDialog = true

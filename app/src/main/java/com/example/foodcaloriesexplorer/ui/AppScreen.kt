@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import com.example.foodcaloriesexplorer.R
 
 enum class AppScreen(@StringRes val title: Int) {
-    DashScreen(title = R.string.app_name),
+    DashboardScreen(title = R.string.app_name),
     CategoriesScreen(title = R.string.categories_screen_title),
     IngredientsScreen(title = R.string.ingredients_screen_title),
     SignIn(title= R.string.signIn_screen_title),
