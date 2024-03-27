@@ -1,8 +1,8 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
-package com.example.foodcaloriesexplorer
+package com.example.foodcaloriesexplorer.ui
 
-import androidx.annotation.StringRes
+import ProfileScreen
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -28,11 +28,7 @@ import model.Category
 import model.CategoryDataSource
 
 var currentSelectedCategory: Category? = null;
-enum class AppScreen(@StringRes val title: Int) {
-    DashScreen(title = R.string.app_name),
-    CategoriesScreen(title = R.string.categories_screen_title),
-    IngredientsScreen(title = R.string.ingredients_screen_title),
-}
+
 @Composable
 fun CaloriesAppBar(
     currentScreen: AppScreen,
@@ -64,7 +60,7 @@ fun CaloriesApp(
 ){
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = AppScreen.valueOf(
-        backStackEntry?.destination?.route ?: AppScreen.CategoriesScreen.name
+        backStackEntry?.destination?.route ?: AppScreen.SignIn.name
     )
 
     Scaffold(
@@ -78,7 +74,7 @@ fun CaloriesApp(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = AppScreen.DashScreen.name,
+            startDestination = AppScreen.SignIn.name,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -111,6 +107,24 @@ fun CaloriesApp(
             }
             composable(route = AppScreen.IngredientsScreen.name) {
                 IngredientsScreen(currentSelectedCategory)
+            }
+            composable(route = AppScreen.SignIn.name) {
+                SignInScreen(
+                    onSignInSuccess = { navController.navigate(AppScreen.MainContent.name) },
+                    onSignUpRequested = { navController.navigate(AppScreen.SignUp.name) }
+                )
+            }
+            composable(route = AppScreen.SignUp.name) {
+                SignUpScreen(
+                    onSignupSuccess = {  navController.navigate(AppScreen.SignIn.name) },
+                    onSignInRequested = {  navController.navigate(AppScreen.SignIn.name) }
+                )
+            }
+            composable(route = AppScreen.MainContent.name) {
+                MainContent ( isSignIn = {navController.navigate(AppScreen.Profile.name)})
+            }
+            composable(route = AppScreen.MainContent.name) {
+                ProfileScreen()
             }
         }
     }

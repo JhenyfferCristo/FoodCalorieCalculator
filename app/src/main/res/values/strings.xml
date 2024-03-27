@@ -4,6 +4,10 @@
     <!-- App Screens -->
     <string name="categories_screen_title">Categories</string>
     <string name="ingredients_screen_title">Ingredients</string>
+    <string name="signIn_screen_title">SignIn</string>
+    <string name="signUp_screen_title">SignUp</string>
+    <string name="mainContent_screen_title">Main</string>
+    <string name="profile_screen_title">Profile</string>
 
     <!-- Categories -->
     <string name="fruit">Fruits</string>
