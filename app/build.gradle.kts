@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    compileSdk = ProjectConfig.compileSdk
 
+    compileSdk = 32
     defaultConfig {
         applicationId = ProjectConfig.appId
-        minSdk = ProjectConfig.minSdk
+        minSdk = 26
         targetSdk = ProjectConfig.targetSdk
         versionCode = ProjectConfig.versionCode
         versionName = ProjectConfig.versionName
