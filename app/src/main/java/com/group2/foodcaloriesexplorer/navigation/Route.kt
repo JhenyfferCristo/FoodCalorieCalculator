@@ -2,6 +2,8 @@ package com.group2.foodcaloriesexplorer.navigation
 
 object Route {
 
+    const val SIGNIN = "signin"
+    const val SIGNUP = "signup"
     const val WELCOME = "welcome"
     const val AGE = "age"
     const val GENDER = "gender"

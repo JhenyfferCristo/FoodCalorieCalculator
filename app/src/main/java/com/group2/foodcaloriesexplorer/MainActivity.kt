@@ -19,6 +19,8 @@ import com.group2.foodcaloriesexplorer.navigation.Route
 import com.group2.foodcaloriesexplorer.ui.theme.MyCalorieTrackerTheme
 import com.group2.onboarding_presentation.activity.ActivityScreen
 import com.group2.onboarding_presentation.age.AgeScreen
+import com.group2.onboarding_presentation.auth.SignInScreen
+import com.group2.onboarding_presentation.auth.SignUpScreen
 import com.group2.onboarding_presentation.gender.GenderScreen
 import com.group2.onboarding_presentation.goal.GoalScreen
 import com.group2.onboarding_presentation.height.HeightScreen
@@ -55,6 +57,31 @@ class MainActivity : ComponentActivity() {
                             WelcomeScreen(
                                 onNextClick = {
                                     navController.navigate(Route.GENDER)
+                                },
+                                onSignInClick = {
+                                    navController.navigate(Route.SIGNIN)
+                                }
+                            )
+                        }
+
+                        composable(Route.SIGNIN) {
+                            SignInScreen(
+                                onSignInSuccess = {
+                                    navController.navigate(Route.TRACKER_OVERVIEW)
+                                },
+                                onSignUpRequested = {
+                                    navController.navigate(Route.SIGNUP)
+                                }
+                            )
+                        }
+
+                        composable(Route.SIGNUP) {
+                            SignUpScreen(
+                                onSignupSuccess = {
+                                    navController.navigate(Route.SIGNIN)
+                                },
+                                onSignInRequested = {
+                                    navController.navigate(Route.SIGNIN)
                                 }
                             )
                         }
