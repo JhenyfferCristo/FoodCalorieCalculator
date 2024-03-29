@@ -6,8 +6,10 @@ object FakeData {
             email = "test@test.com",
             password = "1234",
             name = "TestUser",
-            height = "170",
-            weight = "65",
+            gender = "Female",
+            age = 29,
+            height = 170.0f,
+            weight = 66.0f,
         )
     )
     fun addUser(user: User): Boolean {
