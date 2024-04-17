@@ -6,6 +6,6 @@ dependencies {
     "implementation"(project(Modules.core))
     "implementation"(project(Modules.coreUi))
     "implementation"(project(Modules.trackerDomain))
-
+    "implementation"(project(Modules.onboardingPresentation))
     "implementation"(Coil.coilCompose)
 }

@@ -1,29 +1,29 @@
 package com.group2.tracker_presentation.tracker_overview
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import coil.annotation.ExperimentalCoilApi
-import com.group2.core.R
-import com.group2.core_ui.LocalSpacing
-import com.group2.tracker_presentation.tracker_overview.components.*
-import androidx.compose.material.*
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.group2.tracker_presentation.tracker_overview.components.NutrientsHeader
-import com.group2.tracker_presentation.tracker_overview.components.DaySelector
-import com.group2.tracker_presentation.tracker_overview.components.ExpandableMeal
-import com.group2.tracker_presentation.tracker_overview.components.AddButton
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
+
+object AppRoutes {
+    const val HOME = "home"
+    const val RECIPES = "recipes"
+    const val PROFILE = "profile"
+}
+
 
 @ExperimentalCoilApi
 @Composable
@@ -32,92 +32,29 @@ fun TrackerOverviewScreen(
     viewModel: TrackerOverviewViewModel = hiltViewModel()
 ) {
     val navController = rememberNavController()
-    val dimens = LocalSpacing.current
-    val state = viewModel.state
-    val context = LocalContext.current
 
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
-    ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = innerPadding.calculateBottomPadding()),
-            content = {
-                item {
-                    NutrientsHeader(state = state)
-                    Spacer(modifier = Modifier.height(dimens.medium))
-                    DaySelector(
-                        date = state.date,
-                        onPreviousDateClick = {
-                            viewModel.onEvent(TrackerOverviewEvent.OnPreviousDayClick)
-                        },
-                        onNextDayClick = {
-                            viewModel.onEvent(TrackerOverviewEvent.OnNextDayClick)
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = dimens.medium)
+    ) {
+        NavHost(navController = navController, startDestination = AppRoutes.HOME) {
+            composable(AppRoutes.HOME) {
+                OverviewHomePage(
+                    viewModel = viewModel,
+                    onNavigateToSearch = onNavigateToSearch,
                     )
-                    Spacer(modifier = Modifier.height(dimens.medium))
-                }
-                items(state.meals) { meal ->
-                    ExpandableMeal(
-                        meal = meal,
-                        content = {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = dimens.small)
-                            ) {
-                                val foods = state.trackedFoods.filter {
-                                    it.mealType == meal.mealType
-                                }
-                                foods.forEach { food ->
-                                    TrackedFoodItem(
-                                        trackedFood = food,
-                                        onDeleteClick = {
-                                            viewModel.onEvent(
-                                                TrackerOverviewEvent.OnDeleteTrackedFoodClick(food)
-                                            )
-                                        }
-                                    )
-                                    Spacer(modifier = Modifier.height(dimens.medium))
-                                }
-                                AddButton(
-                                    text = stringResource(
-                                        id = R.string.add_meal,
-                                        meal.name.asString(context)
-                                    ),
-                                    onClick = {
-                                        onNavigateToSearch(
-                                            meal.name.asString(context),
-                                            state.date.dayOfMonth,
-                                            state.date.monthValue,
-                                            state.date.year
-                                        )
-                                    },
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            }
-                        },
-                        onToggleClick = {
-                            viewModel.onEvent(TrackerOverviewEvent.OnToggleMealClick(meal))
-                        },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
             }
-        )
+            composable(AppRoutes.RECIPES) { RecipePage() }
+            composable(AppRoutes.PROFILE) { ProfilePage() }
+        }
     }
 }
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        NavigationItem("home", "Home", Icons.Default.Home),
-        NavigationItem("recipes", "Recipes", Icons.Default.Menu),
-        NavigationItem("profile", "Profile", Icons.Default.Person)
+        NavigationItem(AppRoutes.HOME, "Home", Icons.Default.Home),
+        NavigationItem(AppRoutes.RECIPES, "Recipes", Icons.Default.Menu),
+        NavigationItem(AppRoutes.PROFILE, "Profile", Icons.Default.Person)
     )
     BottomNavigation {
         val currentRoute = navController.currentDestination?.route
@@ -127,46 +64,12 @@ fun BottomNavigationBar(navController: NavController) {
                 label = { Text(item.label) },
                 selected = currentRoute == item.route,
                 onClick = {
-                    when (item.route) {
-                        "home" -> {
-                            // Assuming "Home" is the route name for the home screen
-                            navController.navigate("Home") {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
+                    navController.navigate(item.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
                         }
-                        "recipes" -> {
-                            // Navigate to RecipePage
-                            navController.navigate("RecipePage") {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
-                        "profile" -> {
-                            // Navigate to ProfilePage
-                            navController.navigate("ProfilePage") {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
-                        else -> {
-                            navController.navigate(item.route) {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
+                        launchSingleTop = true
+                        restoreState = true
                     }
                 }
             )
