@@ -39,13 +39,7 @@ fun WelcomeScreen(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(dimens.medium))
-        ActionButton(
-            text = stringResource(id = R.string.next),
-            onClick = {
-                onNextClick()
-            },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
+
         ActionButton(
             text = stringResource(id = R.string.signin),
             onClick = {
